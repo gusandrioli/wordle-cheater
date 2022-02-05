@@ -2,7 +2,7 @@
 
 ## Quick Start
 ```bash
-php main.php th o s --exclude w v l 
+php main.php th... o s --exclude w v u 
 ```
 
 ## Examples
