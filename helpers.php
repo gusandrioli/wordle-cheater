@@ -21,16 +21,16 @@ function get_include_and_exclude_arguments($argv) {
 }
 
 function has_query_per_position($argv) {
-	if (strpos($argv[1], ".") !== false) {
-		if (strlen($argv[1]) != 5) {
-	    	printf("Invalid query argument. Words should be 5 letters, not %d\n", strlen($argv[1]));
-	    	exit();
-    	} else {
-    		return true;
-    	}
-	}
+    if (strpos($argv[1], ".") !== false) {
+        if (strlen($argv[1]) != 5) {
+            printf("Invalid query argument. Words should be 5 letters, not %d\n", strlen($argv[1]));
+            exit();
+        } else {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 function is_word_five_letters($word) {
