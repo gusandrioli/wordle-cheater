@@ -4,6 +4,8 @@ require __DIR__ . '/helpers.php';
 $results = [];
 $file = fopen("words.txt", "r");
 
+list($include_args, $exclude_args) = get_include_and_exclude_arguments($argv);
+
 if (has_query_per_position($argv)) {
     $has_query_per_position = true;
 }
@@ -23,7 +25,7 @@ if ($file) {
             continue;
         }
 
-        foreach ($argv as $index => $arg) {
+        foreach ($include_args as $index => $arg) {
             if ($index === 0 || ($index === 1 && $has_query_per_position)) {
                 continue;
             }
@@ -32,6 +34,12 @@ if ($file) {
                 $word_valid = false;
             }
         }   
+
+        foreach ($exclude_args as $index => $arg) {
+            if (word_contains_arg($word, $arg)) {
+                $word_valid = false;
+            }
+        }
 
         if ($word_valid) {
             array_push($results, $word);
@@ -45,4 +53,5 @@ if ($file) {
 } 
 
 print_results($results);
+
 ?>

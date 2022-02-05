@@ -1,5 +1,25 @@
 <?php 
 
+function get_include_and_exclude_arguments($argv) {
+    $is_include = true;
+    $include_args = [];
+    $exclude_args = [];
+
+    foreach ($argv as $i => $arg) {
+        if ($arg == "--exclude" || $arg == "-e") {
+            $is_include = false;
+        }
+
+        if ($is_include) {
+            array_push($include_args, $arg);
+        } else {
+            array_push($exclude_args, $arg);
+        }
+    }
+
+    return array($include_args, $exclude_args);
+}
+
 function has_query_per_position($argv) {
 	if (strpos($argv[1], ".") !== false) {
 		if (strlen($argv[1]) != 5) {
@@ -18,10 +38,14 @@ function is_word_five_letters($word) {
 }
 
 function print_results($results) {
-    print("Here are the possible words: \n");
+    if (count($results) == 0) {
+        print("There were no matches\n");
+        return;
+    }
+
+    printf("%d matches found! Here are the possible words: \n", count($results));
     foreach ($results as $key => $word) {
-        print($key." => ");
-        print($word);
+        print($key." => ".$word);
     }
 }
 
@@ -30,14 +54,15 @@ function word_contains_arg($word, $arg) {
 }
 
 // $conditions looks like ..p.e
-// Similar syntax to unix's grep position based query
+// similar syntax to unix's grep position based query
 function word_matches_position_query($word, $conditions) {
+    $word_arr = str_split($word);
     foreach ($conditions as $letter_index => $letter) {
         if ($letter == ".") {
         	continue;
         }
 
-        if (strpos($word, $letter) !== $letter_index) {
+        if ($word_arr[$letter_index] !== $letter) {
         	return false;
         }
     }
