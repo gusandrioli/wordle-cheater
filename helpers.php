@@ -43,7 +43,7 @@ function print_results($results) {
         return;
     }
 
-    printf("%d matches found! Here are the possible words: \n", count($results));
+    printf("%d word(s) found! Here are the possible words: \n", count($results));
     foreach ($results as $key => $word) {
         print($key." => ".$word);
     }
